@@ -17,5 +17,4 @@ public class IcetradeController {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(IcetradeController.class, args);
     }
-
 }

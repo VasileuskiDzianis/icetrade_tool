@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS requestLog;
+CREATE TABLE requestLog (
+	id BIGSERIAL PRIMARY KEY,
+	tenderId INTEGER,
+	requestDate TIMESTAMP
+);
