@@ -1,6 +1,7 @@
 package by.vasilevsky.ice_tooll.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 public class TenderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -9,6 +10,7 @@ public class TenderItem implements Serializable {
 	private String economicSector;
 	private String purchaseBriefDescription;
 	private Customer customer;
+	private Set<String> emails;
 
 	public String getEconomicSector() {
 		return economicSector;
@@ -40,5 +42,13 @@ public class TenderItem implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Set<String> getEmails() {
+		return emails;
+	}
+
+	public void setEmails(Set<String> emails) {
+		this.emails = emails;
 	}
 }
