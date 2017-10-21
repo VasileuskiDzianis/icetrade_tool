@@ -17,13 +17,11 @@ public class TenderItemServiceImplTest extends TenderItemServiceImpl {
 	private static final String PURCHASE_BRIEF_DESCR = "Обородование для подачи и очистки воды";
 	private static final String COMPANY_NAME = "Общество с ограниченной ответственностью \"Строительная фирма \"Барит\" г. Молодечно";
 	private static final String COMPANY_ADDRESS = "Республика Беларусь, Минская обл., г. Молодечно, 222304, ул. Металлистов, 10";
-	private static final String COMPANY_BANK = "ОАО \"АСБ Беларусбанк\", р/c: BY15AKBB30122012100266100000 в фил. 601, код. AKBBBY21601";
-	private static final long COMPANY_ID = 600419900L;
 	private static final Set<String> EMAILS_492203 = new HashSet<>(Arrays.asList("barit@tut.by"));
 
 	private static final long ARCHIVE_TENDER_WITH_LONG_EMAIL_ID = 492912L;
 	private static final Set<String> EMAILS_492912 = new HashSet<>(Arrays.asList("mtе.uko@bmz.gomel.by"));
-	
+
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -37,8 +35,6 @@ public class TenderItemServiceImplTest extends TenderItemServiceImpl {
 		assertEquals(PURCHASE_BRIEF_DESCR, tenderItem.getPurchaseBriefDescription());
 		assertEquals(COMPANY_NAME, tenderItem.getCustomer().getName());
 		assertEquals(COMPANY_ADDRESS, tenderItem.getCustomer().getAddress());
-		assertEquals(COMPANY_BANK, tenderItem.getCustomer().getBankInfo());
-		assertEquals(COMPANY_ID, tenderItem.getCustomer().getId());
 		assertEquals(EMAILS_492203, tenderItem.getEmails());
 	}
 	

@@ -4,7 +4,6 @@ public class Customer {
 	private long id;
 	private String name;
 	private String address;
-	private String bankInfo;
 
 	public long getId() {
 		return id;
@@ -28,13 +27,5 @@ public class Customer {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public String getBankInfo() {
-		return bankInfo;
-	}
-
-	public void setBankInfo(String bankInfo) {
-		this.bankInfo = bankInfo;
 	}
 }
