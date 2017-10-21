@@ -1,6 +1,9 @@
 package by.vasilevsky.ice_tooll.service;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.jsoup.Jsoup;
@@ -34,6 +37,10 @@ public class TenderItemServiceImpl implements TenderItemService {
 
 	private static final String WORD_DELIMITER_PATTERN = "[\\s\\t\\n\\r,]";
 
+	private static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
+	
+	private static final String EXPIRY_DATE_CLASS = "af-request_end";
+
 	public TenderItemServiceImpl() {
 
 	}
@@ -52,6 +59,7 @@ public class TenderItemServiceImpl implements TenderItemService {
 		tenderItem.setEconomicSector(getRowData(document, ECONOMIC_SECTOR_ROW_CLASS));
 		tenderItem.setPurchaseBriefDescription(getRowData(document, BRIEF_OBJECT_DESCR_ROW_CLASS));
 		tenderItem.setCustomer(buildCustomer(document));
+		tenderItem.setExpiryDate(extractDateTime(getRowData(document, EXPIRY_DATE_CLASS)));
 
 		Set<String> emails = new HashSet<>();
 
@@ -105,5 +113,17 @@ public class TenderItemServiceImpl implements TenderItemService {
 		EmailValidator emailValidator = EmailValidator.getInstance();
 
 		return emailValidator.isValid(input);
+	}
+
+	private Date extractDateTime(String input) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
+		
+
+		try {
+			return dateFormat.parse(input.replaceAll("&nbsp;", " "));
+			
+		} catch (ParseException e) {
+			throw new IllegalArgumentException();
+		}
 	}
 }

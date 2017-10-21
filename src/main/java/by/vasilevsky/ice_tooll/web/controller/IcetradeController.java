@@ -1,5 +1,10 @@
 package by.vasilevsky.ice_tooll.web.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,25 +24,37 @@ import by.vasilevsky.ice_tooll.web.json.TenderInfo;
 @EnableAutoConfiguration
 @RequestMapping("/tenders/all/view")
 public class IcetradeController {
+	private static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
+	
 	@Autowired
 	private TenderItemService tenderItemService;
 
-    @RequestMapping(path = "/{tenderId}", method = RequestMethod.GET)
-    public @ResponseBody TenderInfo getTenderInfo(@PathVariable long tenderId) {
-        TenderItem tenderItem = tenderItemService.getTenderItemById(tenderId);
+	@RequestMapping(path = "/{tenderId}", method = RequestMethod.GET)
+	public @ResponseBody TenderInfo getTenderInfo(@PathVariable long tenderId) {
+		TenderItem tenderItem = tenderItemService.getTenderItemById(tenderId);
 
-        return buildTenderInfo(tenderItem);
-    }
+		return buildTenderInfo(tenderItem);
+	}
 
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(IcetradeController.class, args);
-    }
-    
-    private TenderInfo buildTenderInfo(TenderItem tenderItem) {
+	public static void main(String[] args) throws Exception {
+		SpringApplication.run(IcetradeController.class, args);
+	}
+
+	private TenderInfo buildTenderInfo(TenderItem tenderItem) {
     	TenderInfo tenderInfo = new TenderInfo();
     	tenderInfo.setTenderId(tenderItem.getId());
     	tenderInfo.setEmails(tenderItem.getEmails());
+    	DateFormat dateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
+    	tenderInfo.setExpiryDate(dateFormat.format(tenderItem.getExpiryDate()));
+    	tenderInfo.setDaysLeft(getDateDifference(new Date(), tenderItem.getExpiryDate(), TimeUnit.DAYS));
     	
     	return tenderInfo;
     }
+
+	private int getDateDifference(Date date1, Date date2, TimeUnit timeUnit) {
+    	
+		long diffInMillies = date2.getTime() - date1.getTime();
+	    
+		return (int) timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS); 
+	}
 }

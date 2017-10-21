@@ -5,6 +5,24 @@ import java.util.Set;
 public class TenderInfo {
 	private long tenderId;
 	private Set<String> emails;
+	private String expiryDate;
+	private int daysLeft;
+
+	public int getDaysLeft() {
+		return daysLeft;
+	}
+
+	public void setDaysLeft(int daysLeft) {
+		this.daysLeft = daysLeft;
+	}
+
+	public String getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(String expiryDate) {
+		this.expiryDate = expiryDate;
+	}
 
 	public long getTenderId() {
 		return tenderId;

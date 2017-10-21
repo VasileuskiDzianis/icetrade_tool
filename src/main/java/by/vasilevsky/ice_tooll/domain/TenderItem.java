@@ -1,6 +1,7 @@
 package by.vasilevsky.ice_tooll.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 public class TenderItem implements Serializable {
@@ -11,6 +12,15 @@ public class TenderItem implements Serializable {
 	private String purchaseBriefDescription;
 	private Customer customer;
 	private Set<String> emails;
+	private Date expiryDate;
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
 
 	public String getEconomicSector() {
 		return economicSector;
