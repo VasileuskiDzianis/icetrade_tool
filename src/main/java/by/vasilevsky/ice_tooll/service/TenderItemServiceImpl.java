@@ -9,8 +9,10 @@ import java.util.Set;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import by.vasilevsky.ice_tooll.dao.TenderItemDao;
 import by.vasilevsky.ice_tooll.domain.Customer;
 import by.vasilevsky.ice_tooll.domain.TenderItem;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -35,6 +37,9 @@ public class TenderItemServiceImpl implements TenderItemService {
 	private static final String ORGANIZER_CONTACTS = "af-organizer_contacts";
 	private static final String ORGANIZER_DATA = "af-organizer_data";
 	private static final String EXPIRY_DATE = "af-request_end";
+	
+	@Autowired
+	private TenderItemDao tenderItemDao;
 
 	@Override
 	public TenderItem getTenderItemById(long id) {
@@ -112,5 +117,10 @@ public class TenderItemServiceImpl implements TenderItemService {
 		} catch (ParseException e) {
 			throw new IllegalArgumentException("Error parsing date", e);
 		}
+	}
+
+	@Override
+	public void save(TenderItem tenderItem) {
+		tenderItemDao.save(tenderItem);
 	}
 }

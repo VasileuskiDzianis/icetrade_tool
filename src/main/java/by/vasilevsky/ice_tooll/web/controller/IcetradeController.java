@@ -23,10 +23,12 @@ public class IcetradeController {
 	
 	@Autowired
 	private TenderItemService tenderItemService;
+	
 
 	@RequestMapping(path = "/{tenderId}", method = RequestMethod.GET)
 	public @ResponseBody TenderInfo getTenderInfo(@PathVariable long tenderId) {
 		TenderItem tenderItem = tenderItemService.getTenderItemById(tenderId);
+		tenderItemService.save(tenderItem);
 
 		return buildTenderInfo(tenderItem);
 	}

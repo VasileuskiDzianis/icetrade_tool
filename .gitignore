@@ -8,3 +8,5 @@ mvnw.cmd
 .springBeans
 .log
 *.class
+/ice_tool.log
+/tenders.csv
