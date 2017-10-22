@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -15,20 +18,24 @@ import org.springframework.stereotype.Service;
 import by.vasilevsky.ice_tooll.dao.TenderItemDao;
 import by.vasilevsky.ice_tooll.domain.Customer;
 import by.vasilevsky.ice_tooll.domain.TenderItem;
+import by.vasilevsky.ice_tooll.util.PatternCollection;
+
 import org.apache.commons.validator.routines.EmailValidator;
 
 @Service
 public class TenderItemServiceImpl implements TenderItemService {
 	private static final String REQUEST = "http://www.icetrade.by/tenders/all/view/";
-	
+
 	private static final String LINE_SPLITTER = "<br>";
 	private static final String EMPTY_STRING = "";
+	private static final String SPACE = " ";
 	private static final String WORD_DELIMITER_PATTERN = "[\\s\\t\\n\\r,]";
 	private static final String DATE_TIME_PATTERN = "dd.MM.yyyy HH:mm";
+	private static final String NO_BREAK_SPACE = "&nbsp;";
 
 	private static final int CUSTOMER_ADDRESS_ELEMENT_INDEX = 1;
 	private static final int CUSTOMER_NAME_ELEMENT_INDEX = 0;
-	
+
 	private static final String DATA_COLUMN = "afv";
 	private static final String ECONOMIC_SECTOR = "af-industry";
 	private static final String BRIEF_OBJECT_DESCR = "af-title";
@@ -37,9 +44,14 @@ public class TenderItemServiceImpl implements TenderItemService {
 	private static final String ORGANIZER_CONTACTS = "af-organizer_contacts";
 	private static final String ORGANIZER_DATA = "af-organizer_data";
 	private static final String EXPIRY_DATE = "af-request_end";
-	
+
 	@Autowired
 	private TenderItemDao tenderItemDao;
+
+	@Override
+	public void save(TenderItem tenderItem) {
+		tenderItemDao.save(tenderItem);
+	}
 
 	@Override
 	public TenderItem getTenderItemById(long id) {
@@ -63,6 +75,13 @@ public class TenderItemServiceImpl implements TenderItemService {
 		emails.addAll(extractEmails(getRowData(document, ORGANIZER_CONTACTS)));
 		emails.addAll(extractEmails(getRowData(document, ORGANIZER_DATA)));
 		tenderItem.setEmails(emails);
+		
+		Set<String> phones = new HashSet<>();
+		phones.addAll(extractPhoneNumbers(getRowData(document, CUSTOMER_CONTACTS)));
+		phones.addAll(extractPhoneNumbers(getRowData(document, CUSTOMER_DATA)));
+		phones.addAll(extractPhoneNumbers(getRowData(document, ORGANIZER_CONTACTS)));
+		phones.addAll(extractPhoneNumbers(getRowData(document, ORGANIZER_DATA)));
+		tenderItem.setPhoneNumbers(phones);
 
 		return tenderItem;
 	}
@@ -112,15 +131,22 @@ public class TenderItemServiceImpl implements TenderItemService {
 	private Date extractDateTime(String input) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
 		try {
-			return dateFormat.parse(input.replaceAll("&nbsp;", " "));
-			
+			return dateFormat.parse(input.replaceAll(NO_BREAK_SPACE, SPACE));
+
 		} catch (ParseException e) {
 			throw new IllegalArgumentException("Error parsing date", e);
 		}
 	}
 
-	@Override
-	public void save(TenderItem tenderItem) {
-		tenderItemDao.save(tenderItem);
+	private Set<String> extractPhoneNumbers(String input) {
+		Set<String> numbers = new HashSet<>();
+		Pattern pattern = Pattern.compile(PatternCollection.PHONE_NUMBER_BOTH, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(input);
+
+		while (matcher.find()) {
+			numbers.add(matcher.group().trim());
+		}
+
+		return numbers;
 	}
 }

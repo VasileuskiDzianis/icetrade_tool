@@ -4,9 +4,18 @@ import java.util.Set;
 
 public class TenderInfo {
 	private long tenderId;
+	private Set<String> phoneNumbers;
 	private Set<String> emails;
 	private String expiryDate;
 	private int daysLeft;
+
+	public Set<String> getPhoneNumbers() {
+		return phoneNumbers;
+	}
+
+	public void setPhoneNumbers(Set<String> phoneNumbers) {
+		this.phoneNumbers = phoneNumbers;
+	}
 
 	public int getDaysLeft() {
 		return daysLeft;

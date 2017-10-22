@@ -37,6 +37,7 @@ public class IcetradeController {
     	TenderInfo tenderInfo = new TenderInfo();
     	tenderInfo.setTenderId(tenderItem.getId());
     	tenderInfo.setEmails(tenderItem.getEmails());
+    	tenderInfo.setPhoneNumbers(tenderItem.getPhoneNumbers());
     	DateFormat dateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
     	tenderInfo.setExpiryDate(dateFormat.format(tenderItem.getExpiryDate()));
     	tenderInfo.setDaysLeft(getDateDifference(new Date(), tenderItem.getExpiryDate(), TimeUnit.DAYS));
