@@ -12,8 +12,18 @@ public class TenderItem implements Serializable {
 	private String purchaseBriefDescription;
 	private Customer customer;
 	private Date expiryDate;
+	private Date placementDate;
 	private Set<String> emails;
 	private Set<String> phoneNumbers;
+
+	
+	public Date getPlacementDate() {
+		return placementDate;
+	}
+
+	public void setPlacementDate(Date placementDate) {
+		this.placementDate = placementDate;
+	}
 
 	public Set<String> getPhoneNumbers() {
 		return phoneNumbers;
