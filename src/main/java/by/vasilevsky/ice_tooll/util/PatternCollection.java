@@ -10,7 +10,7 @@ public final class PatternCollection {
 
 	public static final String PHONE_NUMBER_FULL = "\\+?\\(?375\\)?[ -]?\\d{2}([ -]?\\d{1}){7}";
 	public static final String PHONE_NUMBER_SHORT = "(\\(?\\d{3,4}\\)?[ -]?)?\\d{2,3}-\\d{2}-\\d{2}";
-	public static final String PHONE_NUMBER_BOTH = "(8?[- ]?(\\(?\\d{3,4}\\)?[ -]?)?\\d{2,3}[- ]\\d{2}[- ]\\d{2})|(\\+?\\(?375\\)?[ -]?\\d{2}([ -]?\\d{1}){7})";
+	public static final String PHONE_NUMBER_BOTH = "(\\+?\\(?375\\)?[ -\\(]?\\d{2}([ -\\)]?\\d{1}){7})|(8?[- ]?(\\(?\\d{3,5}\\)?[ -]?)?\\d{2,3}[- ]\\d{1,2}[- ]\\d{2})";
 	
 	private PatternCollection() {
 
