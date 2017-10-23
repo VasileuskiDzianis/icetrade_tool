@@ -59,12 +59,7 @@ public class TenderItemServiceImpl implements TenderItemService {
 
 	@Override
 	public TenderItem getTenderItemById(long id) {
-		Document document = null;
-		try {
-			document = Jsoup.connect(REQUEST + id).get();
-		} catch (IOException e) {
-			throw new RuntimeException("Page parsing error. Page id is: " + id, e);
-		}
+		Document document = parsePage(id);
 
 		TenderItem tenderItem = new TenderItem();
 		Set<String> emails = new HashSet<>();
@@ -94,6 +89,16 @@ public class TenderItemServiceImpl implements TenderItemService {
 		tenderItem.setPhoneNumbers(phones);
 
 		return tenderItem;
+	}
+
+	private Document parsePage(long id) {
+		try {
+			
+			return Jsoup.connect(REQUEST + id).get();
+		
+		} catch (IOException e) {
+			throw new RuntimeException("Page parsing error. Page id is: " + id, e);
+		}
 	}
 
 	private Customer buildCustomer(Document document) {
