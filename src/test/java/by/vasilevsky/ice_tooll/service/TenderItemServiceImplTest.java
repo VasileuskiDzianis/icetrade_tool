@@ -17,6 +17,7 @@ public class TenderItemServiceImplTest extends TenderItemServiceImpl {
 	private static final String PURCHASE_BRIEF_DESCR = "Обородование для подачи и очистки воды";
 	private static final String COMPANY_NAME = "Общество с ограниченной ответственностью \"Строительная фирма \"Барит\" г. Молодечно";
 	private static final String COMPANY_ADDRESS = "Республика Беларусь, Минская обл., г. Молодечно, 222304, ул. Металлистов, 10";
+	private static final Set<String> PHONES_492203 = new HashSet<>(Arrays.asList("+37529 3049385"));
 	private static final Set<String> EMAILS_492203 = new HashSet<>(Arrays.asList("barit@tut.by"));
 
 	private static final long ARCHIVE_TENDER_WITH_LONG_EMAIL_ID = 492912L;
@@ -36,6 +37,7 @@ public class TenderItemServiceImplTest extends TenderItemServiceImpl {
 		assertEquals(COMPANY_NAME, tenderItem.getCustomer().getName());
 		assertEquals(COMPANY_ADDRESS, tenderItem.getCustomer().getAddress());
 		assertEquals(EMAILS_492203, tenderItem.getEmails());
+		assertEquals(PHONES_492203, tenderItem.getPhoneNumbers());
 	}
 	
 	@Test
